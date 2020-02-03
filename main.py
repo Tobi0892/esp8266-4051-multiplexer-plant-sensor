@@ -1,11 +1,12 @@
-import machine
+from machine import Pin, ADC
+import json
 from time import sleep
 
-adc = machine.ADC(0)
+adc = ADC(0)
 
-pinA = machine.Pin(12, machine.Pin.OUT)
-pinB = machine.Pin(13, machine.Pin.OUT)
-pinC = machine.Pin(14, machine.Pin.OUT)
+pinA = Pin(12, Pin.OUT)
+pinB = Pin(13, Pin.OUT)
+pinC = Pin(14, Pin.OUT)
 
 
 def setMultiplexerPins(a, b, c):
@@ -14,34 +15,46 @@ def setMultiplexerPins(a, b, c):
     pinC.value(c)
 
 
-def setMultiplexerSensor(sensor):
-    switcher = {
-        0: setMultiplexerPins(0, 0, 0),
-        1: setMultiplexerPins(0, 0, 1),
-        2: setMultiplexerPins(0, 1, 0),
-        3: setMultiplexerPins(0, 1, 1),
-        4: setMultiplexerPins(1, 0, 0),
-        5: setMultiplexerPins(1, 0, 1),
-        6: setMultiplexerPins(1, 1, 0),
-        7: setMultiplexerPins(1, 1, 1)
-    }
+def readSensors():
 
-    return switcher.get(sensor)
+    sensors = {}
 
+    i = 0
+    while i < 8:
+        # Convert sensor number to binary in order to set sensor input of multiplexer
+        args = list("{0:03b}".format(i))
+        setMultiplexerPins(int(args[0]), int(args[1]), int(args[2]))
 
-def getSensorValue(sensor):
-    setMultiplexerSensor(sensor)
-    SoilMoistVal = adc.read()
-    # SoilMoistVal = (((1 / adc.read()) * 1000) / 0.0130027799046692741206740751471) - 101
+        # Read sensor value
+        sensorAnalog = adc.read()
+        if sensorAnalog < 10:
+            sensors["sensor" + str(i)] = {
+                "state": "off",
+                "analog": "",
+                "percent": ""
+            }
+        else:
+            wetPlant = 250 # water 200
+            dryPlant = 500 # air 700
+            sensorPercent = int((1 - (sensorAnalog - wetPlant) / (dryPlant - wetPlant)) * 100)
 
-    # if SoilMoistVal > 100:
-    #     SoilMoistVal = 100
-    # if SoilMoistVal < 0:
-    #     SoilMoistVal = 0
+            if sensorPercent > 100:
+                sensorPercent = 100
+            elif sensorPercent < 0:
+                sensorPercent = 0
 
-    return SoilMoistVal
+            sensors["sensor" + str(i)] = {
+                "state": "on",
+                "analog": sensorAnalog,
+                "percent": sensorPercent
+            }
+
+        i += 1
+
+    return sensors
 
 
 while True:
-    print(getSensorValue(0))
-    sleep(1)
+    sensors = readSensors()
+    print(json.dumps(sensors))
+    sleep(3)
