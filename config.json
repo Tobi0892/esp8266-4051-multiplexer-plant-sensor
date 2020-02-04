@@ -1,7 +1,14 @@
 {
-  "wifi" : {
-    "ssid" : "",
-    "password" : "",
-    "hostname" : "pflanzen-wohnzimmer-fenster"
+  "hostname": "pflanzen-wohnzimmer-fenster",
+  "wifi": {
+    "ssid": "",
+    "password": "",
+  },
+  "mqtt": {
+    "user": "",
+    "password": "",
+    "broker": "",
+    "port": 1883,
+    "topics": "esp8266/"
   }
 }

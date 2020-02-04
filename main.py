@@ -1,6 +1,11 @@
-from machine import Pin, ADC
-import json
+from json import load, dumps
 from time import sleep
+
+from machine import Pin, ADC, RTC, deepsleep, DEEPSLEEP
+from umqtt.simple import MQTTClient
+
+with open("config.json", "r") as config:
+    config = load(config)
 
 adc = ADC(0)
 
@@ -27,13 +32,7 @@ def readSensors():
 
         # Read sensor value
         sensorAnalog = adc.read()
-        if sensorAnalog < 10:
-            sensors["sensor" + str(i)] = {
-                "state": "off",
-                "analog": "",
-                "percent": ""
-            }
-        else:
+        if sensorAnalog >= 10:
             wetPlant = 250 # water 200
             dryPlant = 500 # air 700
             sensorPercent = int((1 - (sensorAnalog - wetPlant) / (dryPlant - wetPlant)) * 100)
@@ -54,7 +53,37 @@ def readSensors():
     return sensors
 
 
+def connectMQTT():
+    print("Connecting to MQTT...", end="")
+
+    mqtt = MQTTClient(
+        config["hostname"],
+        config["mqtt"]["broker"],
+        user=config["mqtt"]["user"],
+        password=config["mqtt"]["password"],
+        port=config["mqtt"]["port"]
+    )
+
+    mqtt.connect()
+    print("connected")
+    return mqtt
+
+
 while True:
     sensors = readSensors()
-    print(json.dumps(sensors))
-    sleep(3)
+
+    mqtt = connectMQTT()
+
+    for sensor, data in sensors.items():
+        mqtt.publish(
+            config["mqtt"]["topics"] + "/" + config["hostname"] + "/" + sensor,
+            dumps(data),
+            qos=1
+        )
+
+    sleep(900)
+
+    # rtc = RTC()
+    # rtc.irq(trigger=rtc.ALARM0, wake=DEEPSLEEP)
+    # rtc.alarm(rtc.ALARM0, 10000)
+    # deepsleep()

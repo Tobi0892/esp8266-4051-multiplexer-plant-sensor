@@ -1,28 +1,44 @@
-import network
-import machine
 import gc
-import time
 import json
+from time import sleep
 
+import esp
+import network
+from machine import reset
+
+esp.osdebug(None)
 gc.collect()
 
-with open('config.json', 'r') as config:
+with open("config.json", "r") as config:
     config = json.load(config)
 
 
 def connectWifi():
     wifi = network.WLAN(network.STA_IF)
-    if not wifi.isconnected():
-        print('connecting to network...')
-        wifi.config(essid=config["wifi"]["hostname"], dhcp_hostname=config["wifi"]["hostname"])
-        wifi.active(True)
-        wifi.connect(config["wifi"]["ssid"], config["wifi"]["password"])
-        while not wifi.isconnected():
-            pass
+    print("")
+    print("Connecting to WiFi...", end="")
+
+    wifi.config(
+        essid=config["hostname"],
+        dhcp_hostname=config["hostname"]
+    )
+
+    wifi.active(True)
+
+    wifi.connect(
+        config["wifi"]["ssid"],
+        config["wifi"]["password"]
+    )
+
+    while not wifi.isconnected():
+        pass
+
+    print("connected")
 
 
 try:
     connectWifi()
+
 except(RuntimeError, TypeError, NameError):
-    time.sleep(60)
-    machine.reset()
+    sleep(60)
+    reset()
