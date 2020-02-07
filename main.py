@@ -1,7 +1,7 @@
 from json import load, dumps
 from time import sleep
 
-from machine import Pin, ADC, RTC, deepsleep, DEEPSLEEP
+from machine import Pin, ADC, RTC
 from umqtt.simple import MQTTClient
 
 with open("config.json", "r") as config:
@@ -42,10 +42,12 @@ def readSensors():
             elif sensorPercent < 0:
                 sensorPercent = 0
 
+            updated = RTC().datetime()
+
             sensors["sensor" + str(i)] = {
-                "state": "on",
                 "analog": sensorAnalog,
-                "percent": sensorPercent
+                "percent": sensorPercent,
+                "updated": "{:02d}.{:02d}.{:02d} {:02d}:{:02d}:{:02d}".format(updated[2], updated[1], updated[0], int(updated[4]) + 1, updated[5], updated[6])
             }
 
         i += 1
@@ -77,8 +79,7 @@ while True:
     for sensor, data in sensors.items():
         mqtt.publish(
             config["mqtt"]["topics"] + "/" + config["hostname"] + "/" + sensor,
-            dumps(data),
-            qos=1
+            dumps(data)
         )
 
     sleep(900)

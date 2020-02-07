@@ -1,6 +1,7 @@
 import gc
 import json
 from time import sleep
+from ntptime import settime
 
 import esp
 import network
@@ -38,6 +39,7 @@ def connectWifi():
 
 try:
     connectWifi()
+    settime()
 
 except(RuntimeError, TypeError, NameError):
     sleep(60)
