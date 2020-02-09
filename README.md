@@ -20,6 +20,7 @@ The code is written in **MicroPython**.
 - [Circuit board](https://www.aliexpress.com/item/1848518580.html) 1,66€
 - [Wires](https://www.aliexpress.com/item/4000329909050.html) 1,90€
 - [Pin headers](https://www.aliexpress.com/item/32861400498.html) 0,88€
+- [3D printed sensor case](https://www.thingiverse.com/thing:2806217) (order print at [treatstock](https://www.treatstock.com/c/gregtu)) ~1,20€
 
 A usb charger and micro usb cable is assumed to be available.
 
@@ -173,8 +174,14 @@ Detail view:
 - [CD4051 Multiplexer](http://www.ti.com/lit/ds/schs047i/schs047i.pdf)
 
 ## Build pictures
-Two sensors placed in a plant each (maybe add a 3D printed sensor cover?)
+Two sensors placed in a plant each
 ![sensors](build%20pictures/sensors.jpg)
+
+Indoor case ([source](https://www.thingiverse.com/thing:2806217))
+![indoor_case](build%20pictures/case_indoor.png)
+
+Outdoor case with top cover ([source](https://www.thingiverse.com/thing:3625073))
+![outdoor_case](build%20pictures/case_outdoor.png)
 
 Three sensors connected to the esp (3 more available - multiplexer supports up to 8)
 ![sensors_connected](build%20pictures/sensors_connected.jpg)
