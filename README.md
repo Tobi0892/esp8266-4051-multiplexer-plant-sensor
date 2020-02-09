@@ -87,18 +87,25 @@ Add i.e. two mqtt sensors to your `sensors.yaml` (your one esp8266 published to 
 
 ```yaml
 - platform: mqtt
-  name: "Ikea Bäumchen"
+  name: "Ficus Benjamina"
   state_topic: "esp8266/pflanzen-wohnzimmer-fenster/sensor0"
   value_template: "{{ value_json.percent }}"
   unit_of_measurement: "%"
   json_attributes_topic: "esp8266/pflanzen-wohnzimmer-fenster/sensor0"
-  icon: mdi:sprout
+  icon: mdi:leaf
 - platform: mqtt
   name: "Zitronenbaum"
   state_topic: "esp8266/pflanzen-wohnzimmer-fenster/sensor1"
   value_template: "{{ value_json.percent }}"
   unit_of_measurement: "%"
   json_attributes_topic: "esp8266/pflanzen-wohnzimmer-fenster/sensor1"
+  icon: mdi:fruit-citrus
+- platform: mqtt
+  name: "Balsamapfel"
+  state_topic: "esp8266/pflanzen-wohnzimmer-fenster/sensor2"
+  value_template: "{{ value_json.percent }}"
+  unit_of_measurement: "%"
+  json_attributes_topic: "esp8266/pflanzen-wohnzimmer-fenster/sensor2"
   icon: mdi:sprout
 ```
 
@@ -112,21 +119,19 @@ And the following to `ui-lovelace.yaml` to display the two sensors in the lovela
   - type: entities
     entities:
       - type: custom:multiple-entity-row
-        entity: sensor.ikea_baumchen
-        name: IKEA Bäumchen
+        entity: sensor.ficus_benjamina
         hide_state: true
         primary:
-          entity: sensor.ikea_baumchen
+          entity: sensor.ficus_benjamina
           attribute: analog
           unit: ''
           name: 'Analog'
         secondary:
-          entity: sensor.ikea_baumchen
+          entity: sensor.ficus_benjamina
           attribute: percent
           name: 'Wasser'
           unit: '%'
       - entity: sensor.zitronenbaum
-        name: Zitronenbaum
         hide_state: true
         type: custom:multiple-entity-row
         primary:
@@ -139,11 +144,28 @@ And the following to `ui-lovelace.yaml` to display the two sensors in the lovela
           attribute: percent
           unit: '%'
           name: 'Wasser'
+      - entity: sensor.balsamapfel
+        hide_state: true
+        type: custom:multiple-entity-row
+        primary:
+          entity: sensor.balsamapfel
+          attribute: analog
+          unit: ''
+          name: 'Analog'
+        secondary:
+          entity: sensor.balsamapfel
+          attribute: percent
+          unit: '%'
+          name: 'Wasser'
 ```
 
-Result:
+Result in lovelace frontend:
 
-![lovelace](build%20pictures/homeassistant.png)
+![lovelace](build%20pictures/lovelace.png)
+
+Detail view:
+
+![lovelace_details](build%20pictures/lovelace_detail.png)
 
 ## Schematics
 
