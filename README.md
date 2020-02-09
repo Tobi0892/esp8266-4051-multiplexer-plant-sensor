@@ -151,8 +151,28 @@ Result:
 - [CD4051 Multiplexer](http://www.ti.com/lit/ds/schs047i/schs047i.pdf)
 
 ## Build pictures
+Two sensors placed in a plant each (maybe add a 3D printed sensor cover?)
+![sensors](build%20pictures/sensors.jpg)
 
-Mode 1 completed without case and ability to connect 4 moisture sensors
+Three sensors connected to the esp (3 more available - multiplexer supports up to 8)
+![sensors_connected](build%20pictures/sensors_connected.jpg)
+
+Front view of the connectors (the wholes could have been drilled better)
+![front](build%20pictures/front.jpg)
+
+Micro usb power connected
+![power](build%20pictures/power.jpg)
+
+VCC and GND JST connectors glued in place
+![all_inputs](build%20pictures/all_inputs.jpg)
+
+6 analog pins (multiplexer channels) for 6 soil moisture sensors glued in place
+![analog pins](build%20pictures/analog_pins.jpg)
+
+Case prepared
+![Case](build%20pictures/case.jpg)
+
+Mode 1 completed without case and ability to connect 4 moisture sensors (2 more have been added after taking the picture)
 ![Mode one completed without case](build%20pictures/mode_one_completed_without_case.jpg)
 
 Sleep pin soldered to be able to wake up from deep sleep
@@ -163,3 +183,15 @@ Wiring below esp8266 (not all connections are visible from the top)
 
 Back with soldered connections
 ![Back](build%20pictures/back.jpg)
+
+Multiplexer wired to headers for esp8266 without connectors for sensors
+![multiplexer](build%20pictures/multiplexer.jpg)
+
+Back of esp8266 and multiplexer wiring
+![back_plain](build%20pictures/back_plain.jpg)
+
+Capacitive soil moisture sensors protected with hot glue
+![soil front](build%20pictures/soil_front.jpg)
+
+Also pins at back are protected 
+![soil_back](build%20pictures/soil_back.jpg)
