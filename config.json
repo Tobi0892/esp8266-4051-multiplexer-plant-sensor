@@ -1,14 +1,14 @@
 {
   "hostname": "pflanzen-wohnzimmer-fenster",
   "wifi": {
-    "ssid": "",
-    "password": "",
+    "ssid": "Koelle Alaaf",
+    "password": "88146772641224137425",
   },
   "mqtt": {
-    "user": "",
-    "password": "",
-    "broker": "",
+    "user": "esp8266",
+    "password": "GpoDHn2RKosncFS1U9om",
+    "broker": "192.168.178.38",
     "port": 1883,
-    "topics": "esp8266/"
+    "topics": "esp8266"
   }
 }
